@@ -30,36 +30,5 @@
         map:layout_constraintRight_toRightOf="@id/map"
         map:layout_constraintBottom_toBottomOf="@id/map"/>
 
-    <Button
-        android:id="@+id/btnRecord"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="record"
-        map:layout_constraintLeft_toLeftOf="parent"
-        map:layout_constraintRight_toLeftOf="@id/btnStop"
-        map:layout_constraintBottom_toBottomOf="parent"
-        />
-    <Button
-        android:id="@+id/btnStop"
-        android:layout_width="0dp"
-        android:layout_margin="5dp"
-        android:text="stop"
-        android:layout_height="wrap_content"
-        map:layout_constraintRight_toLeftOf="@id/playBtn"
-        map:layout_constraintLeft_toRightOf="@id/btnRecord"
-        map:layout_constraintBottom_toBottomOf="parent"/>
-
-    <Button
-        android:id="@+id/playBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="play"
-        map:layout_constraintRight_toRightOf="parent"
-        map:layout_constraintLeft_toRightOf="@id/btnStop"
-        map:layout_constraintBottom_toBottomOf="parent"/>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
