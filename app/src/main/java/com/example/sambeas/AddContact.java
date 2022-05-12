@@ -18,4 +18,9 @@ public class AddContact extends AppCompatActivity {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
+
+    public void recordAudio(View view) {
+        Intent intent = new Intent(this, MainActivityNew.class);
+        startActivity(intent);
+    }
 }

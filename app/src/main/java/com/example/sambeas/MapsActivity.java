@@ -54,7 +54,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     // creating a variable for media recorder object class.
     private MediaRecorder mRecorder;
 
-    // creating a variable for mediaplayer class
+    // creating a variable for mediaPlayer class
     private MediaPlayer mPlayer;
 
     // string variable is created for storing a file name
@@ -80,6 +80,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
 
+        sendSms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendingSms();
+            }
+        });
     }
 
 
