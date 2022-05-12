@@ -73,6 +73,7 @@
         android:onClick="addContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Add Contact"
         android:layout_marginHorizontal="100dp"
         app:layout_constraintTop_toBottomOf="@id/numberField"
@@ -83,5 +84,16 @@
 
 
     </androidx.cardview.widget.CardView>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="record audio"
+        android:onClick="recordAudio"
+        android:layout_marginHorizontal="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
