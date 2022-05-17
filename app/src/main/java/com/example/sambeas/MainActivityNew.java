@@ -115,14 +115,6 @@ public class MainActivityNew extends AppCompatActivity {
 
 
 
-//    public void btnStopPressed(View view) {
-//        updateRecycler();
-//        mediaRecorder.stop();
-//        mediaRecorder.release();
-//        mediaRecorder = null;
-//
-//        Toast.makeText(this,"Recording is stopped", Toast.LENGTH_SHORT).show();
-//    }
 
     public void btnPlayPressed(View view) {
         updateRecycler();
