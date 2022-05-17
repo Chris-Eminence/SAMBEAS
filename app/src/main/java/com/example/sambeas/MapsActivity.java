@@ -1,5 +1,7 @@
 package com.example.sambeas;
 import android.Manifest;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,6 +10,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Looper;
 import androidx.core.app.ActivityCompat;
 import android.os.Bundle;
@@ -20,11 +23,14 @@ import android.widget.Toast;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.os.Environment.DIRECTORY_MUSIC;
 
 
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -39,7 +45,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -51,11 +61,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
     Button sendSms;
+
     // creating a variable for media recorder object class.
-    private MediaRecorder mRecorder;
+
+    private static final int MICROPHONE_PERMISSION_CODE = 200;
+    final String TAG = "MainAc";
+    List<String> fileList = new ArrayList<>(),fileList2 = new ArrayList<>();
+    MediaRecorder mediaRecorder;
+    MediaPlayer mediaPlayer;
+    RecyclerView recyclerView;
+
+    private final static int RECORD_TIME = 5000;
+
+
 
     // creating a variable for mediaPlayer class
-    private MediaPlayer mPlayer;
+
 
     // string variable is created for storing a file name
     private static String mFileName = null;
@@ -71,6 +92,30 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+
+        if (isMicrophonePresent()) {
+            getMicrophonePermission();
+//            updateRecycler();
+        }
+        Log.d(TAG, "onCreate: "+getRecordingFilePath());
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//            public void btnStopPressed(View view) {
+//                updateRecycler();
+                mediaRecorder.stop();
+                mediaRecorder.release();
+                mediaRecorder = null;
+
+                Toast.makeText(getApplicationContext(),"Recording is stopped", Toast.LENGTH_SHORT).show();
+            }
+
+        },RECORD_TIME);
+
+
         sendSms = findViewById(R.id.senMessageButton);
 
         getSupportActionBar().setTitle("Google Map Sms");
@@ -94,6 +139,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         smsManager.sendTextMessage("+2347010599438", null, "https://www.google.com/maps/dir/?api=1&destination=lat,lng&quot", null, null);
                 Toast.makeText(getApplicationContext(), "SMS SENT", Toast.LENGTH_LONG).show();
 
+        Log.d(TAG, "btnRecordPressed: "+getRecordingFilePath());
+//        updateRecycler();
+        try {
+            mediaRecorder = new MediaRecorder();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mediaRecorder.setOutputFile(getRecordingFilePath());
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mediaRecorder.prepare();
+            mediaRecorder.start();
+
+            Toast.makeText(this,"Recording is started", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -111,8 +173,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap = googleMap;
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(120000); // two minute interval
-        mLocationRequest.setFastestInterval(120000);
+        mLocationRequest.setInterval(60000); // two minute interval
+        mLocationRequest.setFastestInterval(60000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -235,6 +297,172 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
+
+
+
+
+
+
+
+//
+//    if (isMicrophonePresent()) {
+//        getMicrophonePermission();
+//        updateRecycler();
+//    }
+//        Log.d(TAG, "onCreate: "+getRecordingFilePath());
+//
+//
+//    new Handler().postDelayed(new Runnable() {
+//        @Override
+//        public void run() {
+////            public void btnStopPressed(View view) {
+//            updateRecycler();
+//            mediaRecorder.stop();
+//            mediaRecorder.release();
+//            mediaRecorder = null;
+//
+//            Toast.makeText(getApplicationContext(),"Recording is stopped", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    },RECORD_TIME);
+//
+//}
+
+//    void updateRecycler(){
+//        String path = getExternalFilesDir(DIRECTORY_MUSIC).getAbsolutePath();
+//        File directory = null;
+//
+//        try {
+//            directory = new File(path);
+//        } catch (Exception e) {
+//            Log.d(TAG, "btnRecordPressed: " + e);
+//        }
+//
+//        assert directory != null;
+//        File[] files = directory.listFiles();
+//        assert files != null;
+//        for (File file : files) {
+//            fileList2.add(file.getName());
+//        }
+//
+//        Adapter  adapter = new Adapter(fileList2);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(adapter);
+//    }
+
+//    public void btnRecordPressed(View view) {
+//        Log.d(TAG, "btnRecordPressed: "+getRecordingFilePath());
+////        updateRecycler();
+//        try {
+//            mediaRecorder = new MediaRecorder();
+//            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+//            mediaRecorder.setOutputFile(getRecordingFilePath());
+//            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+//            mediaRecorder.prepare();
+//            mediaRecorder.start();
+//
+//            Toast.makeText(this,"Recording is started", Toast.LENGTH_SHORT).show();
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
+
+
+
+//    public void btnStopPressed(View view) {
+//        updateRecycler();
+//        mediaRecorder.stop();
+//        mediaRecorder.release();
+//        mediaRecorder = null;
+//
+//        Toast.makeText(this,"Recording is stopped", Toast.LENGTH_SHORT).show();
+//    }
+
+    public void btnPlayPressed(View view) {
+//        updateRecycler();
+        try {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setDataSource(getRecordingFilePath());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+
+            Toast.makeText(this,"Recording is playing", Toast.LENGTH_SHORT).show();
+        }
+
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private boolean isMicrophonePresent() {
+        if (this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void getMicrophonePermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.RECORD_AUDIO}, MICROPHONE_PERMISSION_CODE);
+        }
+    }
+
+    private String getRecordingFilePath() {
+
+        List<Integer> ints = new ArrayList<>();
+
+        String child = "testRecordingFile";
+//        String output = "0123456789";
+
+        String path = getExternalFilesDir(DIRECTORY_MUSIC).getAbsolutePath();
+        File directory = null;
+
+        try {
+            directory = new File(path);
+        } catch (Exception e) {
+            Log.d(TAG, "btnRecordPressed: " + e);
+        }
+
+        assert directory != null;
+        File[] files = directory.listFiles();
+        Log.i(TAG, "getFileListInFolder:files " + Arrays.toString(files));
+        assert files != null;
+        for (File file : files) {
+            fileList.add(file.getName());
+            Log.i(TAG, "FileName:" + file.getName());
+        }
+
+        for (int i = 0; i < fileList.size(); i++) {
+            String input = fileList.get(i);
+            if(input.contains(child)){
+                String x = input.replace(child,"");
+                String y = x.replace(".mp3","");
+                ints.add(Integer.parseInt(y));
+            }
+        }
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File Directory = contextWrapper.getExternalFilesDir(DIRECTORY_MUSIC);
+        File file = new File(Directory, child+ (getMax(ints)+1) + ".mp3");
+        Log.d(TAG, "getRecordingFilePath: "+file.getPath()+" "+getMax(ints));
+
+        return file.getPath();
+    }
+    public static Integer getMax(List<Integer> list)
+    {
+        if (list == null || list.size() == 0) {
+            return 0;
+        }
+
+        return Collections.max(list);
+    }
+    
 }
 
 
