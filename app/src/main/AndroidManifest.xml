@@ -23,16 +23,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SAMBEAS">
         <activity
-            android:name=".MainActivityNew"
-            android:exported="false" />
-        <activity
-            android:name=".AddContact"
+            android:name=".LauncherActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivityNew"
+            android:exported="false" />
+        <activity
+            android:name=".AddContact"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -52,25 +61,28 @@
 
         <activity
             android:name=".MapsActivity"
-            android:launchMode="singleTop"
             android:exported="true"
-            android:label="@string/title_activity_maps">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            android:label="@string/title_activity_maps"
+            android:launchMode="singleTop">
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
-        <receiver android:name=".AppWidgetProvider"
+        <receiver
+            android:name=".AppWidgetProvider"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/app_widget_info"/>
+                android:resource="@xml/app_widget_info" />
         </receiver>
     </application>
 

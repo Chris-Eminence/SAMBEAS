@@ -8,11 +8,16 @@ import android.widget.RemoteViews;
 
 public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
-    //method that is responsible for updating our widget
 
+    //method that is responsible for updating our widget
+    MapsActivity mapsActivity = new MapsActivity();
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
+
+
+
         for (int appWidgetId : appWidgetIds){
             Intent intent = new Intent(context, MapsActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
@@ -22,5 +27,9 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+
+    }
+    public String getMethod(){
+        return mapsActivity.sendingSms();
     }
 }

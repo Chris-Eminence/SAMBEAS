@@ -23,7 +23,7 @@
         android:id="@+id/senMessageButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Location"
+        android:text="Sending Location"
         android:layout_margin="100dp"
         map:layout_constraintTop_toTopOf="@id/map"
         map:layout_constraintLeft_toLeftOf="@id/map"

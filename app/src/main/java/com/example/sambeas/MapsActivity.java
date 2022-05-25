@@ -1,6 +1,5 @@
 package com.example.sambeas;
 import android.Manifest;
-import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.location.Location;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import androidx.core.app.ActivityCompat;
@@ -18,18 +16,14 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.Manifest.permission.RECORD_AUDIO;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Environment.DIRECTORY_MUSIC;
 
 
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -46,7 +40,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -88,6 +81,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int[] grantResults;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +110,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         },RECORD_TIME);
 
 
+
         sendSms = findViewById(R.id.senMessageButton);
 
         getSupportActionBar().setTitle("Google Map Sms");
@@ -131,10 +126,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 sendingSms();
             }
         });
+
+        sendingSms();
     }
 
 
-    public void sendingSms(){
+    public String sendingSms(){
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage("+2347010599438", null, "https://www.google.com/maps/dir/?api=1&destination=lat,lng&quot", null, null);
                 Toast.makeText(getApplicationContext(), "SMS SENT", Toast.LENGTH_LONG).show();
@@ -156,6 +153,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             e.printStackTrace();
         }
 
+        return null;
     }
 
     @Override
@@ -300,88 +298,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-
-
-
-
-//
-//    if (isMicrophonePresent()) {
-//        getMicrophonePermission();
-//        updateRecycler();
-//    }
-//        Log.d(TAG, "onCreate: "+getRecordingFilePath());
-//
-//
-//    new Handler().postDelayed(new Runnable() {
-//        @Override
-//        public void run() {
-////            public void btnStopPressed(View view) {
-//            updateRecycler();
-//            mediaRecorder.stop();
-//            mediaRecorder.release();
-//            mediaRecorder = null;
-//
-//            Toast.makeText(getApplicationContext(),"Recording is stopped", Toast.LENGTH_SHORT).show();
-//        }
-//
-//    },RECORD_TIME);
-//
-//}
-
-//    void updateRecycler(){
-//        String path = getExternalFilesDir(DIRECTORY_MUSIC).getAbsolutePath();
-//        File directory = null;
-//
-//        try {
-//            directory = new File(path);
-//        } catch (Exception e) {
-//            Log.d(TAG, "btnRecordPressed: " + e);
-//        }
-//
-//        assert directory != null;
-//        File[] files = directory.listFiles();
-//        assert files != null;
-//        for (File file : files) {
-//            fileList2.add(file.getName());
-//        }
-//
-//        Adapter  adapter = new Adapter(fileList2);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(adapter);
-//    }
-
-//    public void btnRecordPressed(View view) {
-//        Log.d(TAG, "btnRecordPressed: "+getRecordingFilePath());
-////        updateRecycler();
-//        try {
-//            mediaRecorder = new MediaRecorder();
-//            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-//            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-//            mediaRecorder.setOutputFile(getRecordingFilePath());
-//            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-//            mediaRecorder.prepare();
-//            mediaRecorder.start();
-//
-//            Toast.makeText(this,"Recording is started", Toast.LENGTH_SHORT).show();
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
-
-
-
-//    public void btnStopPressed(View view) {
-//        updateRecycler();
-//        mediaRecorder.stop();
-//        mediaRecorder.release();
-//        mediaRecorder = null;
-//
-//        Toast.makeText(this,"Recording is stopped", Toast.LENGTH_SHORT).show();
-//    }
 
     public void btnPlayPressed(View view) {
 //        updateRecycler();
