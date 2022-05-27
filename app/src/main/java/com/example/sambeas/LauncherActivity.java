@@ -13,7 +13,7 @@ public class LauncherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
-        int secondsDelayed = 5000;
+        int secondsDelayed = 1000;
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 startActivity(new Intent(LauncherActivity.this, AddContact.class));

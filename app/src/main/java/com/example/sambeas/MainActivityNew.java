@@ -42,7 +42,7 @@ public class MainActivityNew extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
-        recyclerView = findViewById(R.id.recy);
+//        recyclerView = findViewById(R.id.recy);
 
         Button purposeButton = findViewById(R.id.senMessageButton);
 
@@ -86,10 +86,10 @@ public class MainActivityNew extends AppCompatActivity {
             fileList2.add(file.getName());
         }
 
-        Adapter  adapter = new Adapter(fileList2);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+//        Adapter  adapter = new Adapter(fileList2);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(adapter);
     }
 
     public void btnRecordPressed(View view) {

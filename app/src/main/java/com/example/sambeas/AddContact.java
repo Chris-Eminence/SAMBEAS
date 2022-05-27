@@ -16,9 +16,9 @@ public class AddContact extends AppCompatActivity {
     }
 
     public void addContact(View view) {
-//        Intent intent = new Intent(this, MapsActivity.class);
-//        startActivity(intent);
-        Toast.makeText(this, "Adding of Contact still under development", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, MainActivityRecyclerViewDB.class);
+        startActivity(intent);
+//        Toast.makeText(this, "Adding of Contact still under development", Toast.LENGTH_LONG).show();
     }
 
 

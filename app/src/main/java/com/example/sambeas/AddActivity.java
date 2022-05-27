@@ -1,4 +1,4 @@
-package com.example.sambeas.database;
+package com.example.sambeas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.sambeas.R;
+import com.example.sambeas.database.MyDatabaseHelper;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -19,11 +19,11 @@ public class AddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        titleInput.findViewById(R.id.title_input);
-        authorInput.findViewById(R.id.author_input);
-        pagesInput.findViewById(R.id.pages_input);
+        titleInput = findViewById(R.id.title_input);
+        authorInput = findViewById(R.id.author_input);
+        pagesInput = findViewById(R.id.pages_input);
 
-        addButton.findViewById(R.id.add_button);
+        addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

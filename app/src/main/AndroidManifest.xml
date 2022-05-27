@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SAMBEAS">
         <activity
-            android:name=".database.AddActivity"
+            android:name=".AddActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivityRecyclerViewDB"

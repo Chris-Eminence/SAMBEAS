@@ -2,6 +2,7 @@ package com.example.sambeas.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -12,7 +13,7 @@ import androidx.annotation.Nullable;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
-    private Context context;
+    public Context context;
     private static final String DATABASE_NAME = "ContactLibrary.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -46,7 +47,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
 
     }
-    void addBook(String title, String author, int pages){
+    public void addBook(String title, String author, int pages){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -61,5 +62,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
         }
 
+    }
+    public Cursor readAllData(){
+        String query = " SELECT *FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if (db != null){
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
     }
 }
