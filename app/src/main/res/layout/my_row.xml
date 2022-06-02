@@ -36,7 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Book Title"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/book_id_text"
                 app:layout_constraintTop_toTopOf="@+id/book_id_text" />

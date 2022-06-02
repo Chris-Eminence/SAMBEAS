@@ -4,6 +4,7 @@ import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -26,6 +27,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sambeas.database.MyDatabaseHelper;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -54,6 +56,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
     Button sendSms;
+    String number = "+2348034765201";
+
+    MyDatabaseHelper myDatabaseHelper;
+    ArrayList<String> book_pages, book_title, book_author, book_id;
 
     // creating a variable for media recorder object class.
 
@@ -65,12 +71,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     RecyclerView recyclerView;
 
     private final static int RECORD_TIME = 5000;
-
-
-
-    // creating a variable for mediaPlayer class
-
-
     // string variable is created for storing a file name
     private static String mFileName = null;
 
@@ -79,8 +79,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int requestCode;
     private String[] permissions;
     private int[] grantResults;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,12 +126,41 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         sendingSms();
+
+
+        myDatabaseHelper = new MyDatabaseHelper(MapsActivity.this);
+        book_id = new ArrayList<>();
+        book_title = new ArrayList<>();
+        book_author = new ArrayList<>();
+        book_pages = new ArrayList<>();
+
+//        addNumber();
+        
+
+
+
     }
+
+//    void addNumber(){
+//        Cursor cursor = myDatabaseHelper.readAllData();
+//        if (cursor.getCount() == 0){
+////            Toast.makeText(this, "No Number added", Toast.LENGTH_SHORT).show();
+//
+//        }else{
+//            while(cursor.moveToNext()){
+//                book_id.add(cursor.getString(0));
+//                book_title.add(cursor.getString(1));
+//                book_author.add(cursor.getString(2));
+//                book_pages.add(cursor.getString(3));
+//            }
+//        }
+//    }
 
 
     public String sendingSms(){
+
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage("+2347010599438", null, "https://www.google.com/maps/dir/?api=1&destination=lat,lng&quot", null, null);
+        smsManager.sendTextMessage(number, null, "Help I am in an Emergency situation, please send help to this location\n\n https://www.google.com/maps/dir/?api=1&destination=lat,lng&quot",null, null);
                 Toast.makeText(getApplicationContext(), "SMS SENT", Toast.LENGTH_LONG).show();
 
         Log.d(TAG, "btnRecordPressed: "+getRecordingFilePath());
